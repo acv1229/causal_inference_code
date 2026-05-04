@@ -1,5 +1,6 @@
 # OS / Python clutter
 .DS_Store
+.claude/
 __pycache__/
 *.pyc
 

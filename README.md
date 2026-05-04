@@ -1,6 +1,4 @@
-# Project Title
-
-Diagnosing the Reliability of Double Machine Learning under Weak Overlap
+# Double Trouble: Diagnostic Observability in Double Machine Learning Under Weak Overlap
 
 ## Project Overview
 
@@ -40,8 +38,6 @@ The inflation identity R_D = R_D* + Var(δ)/Var(D) shows misspecification always
 - Inflation does not shrink with sample size (population-level property)
 - Finding confirmed with both XGBoost and Random Forest as flexible baselines
 - Propensity isolation experiment (Lasso+Logistic vs Lasso+Lasso) cleanly separates functional form from structural misspecification
-
-See `findings.md` for the complete analysis.
 
 ## Key Research Questions
 
@@ -193,7 +189,7 @@ For each setting:
 
 ## Results Summary
 
-### Structural propensity model (v3, primary results)
+### Structural propensity model (primary results)
 
 **Linear surface:**
 
@@ -221,17 +217,14 @@ For each setting:
 
 1. **Lasso coverage collapses** from 94% to 27% (linear) and 98.5% to 33.5% (nonlinear) as overlap weakens
 2. **XGBoost on linear surface barely degrades** — 94% coverage even at strength=5
-3. **Lasso R_D appears misleading** (0.66 with 27% coverage), but this is primarily driven by using linear regression on a binary outcome — a functional form error. With logistic regression propensity (same linear features), R_D drops to 0.19, close to XGBoost's 0.15. See `findings.md` for the full isolation experiment.
-4. **Learner choice matters enormously** under structural overlap violations — but the dominant factor is outcome model quality, not propensity diagnostics
+3. **Lasso R_D appears misleading** (0.66 with 27% coverage), but this is primarily driven by using linear regression on a binary outcome — a functional form error. With logistic regression propensity (same linear features), R_D drops to 0.19, close to XGBoost's 0.15.
+4. **Learner choice matters enormously** under structural overlap violations — but the dominant factor is outcome model quality, not propensity diagnostics. The full propensity isolation experiment is in `src/robustness_analysis.py`.
 
 ## Repository Structure
 
 - `README.md`: project framing and results
-- `project-plan.md`: implementation roadmap
-- `implementation_status.md`: detailed implementation log
-- `ihdp_dml_spec.md`: canonical IHDP variable-selection notes
 - `hill_data/`: bundled IHDP source data and metadata
-- `processed/`: cleaned baseline IHDP CSV
+- `processed/`: cleaned data — IHDP baseline CSV and LaLonde covariates
 - `src/clean_ihdp.py`: IHDP data cleaning
 - `src/generate_ihdp_synthetic.py`: semi-synthetic data generator (4 propensity models: structural, logistic, highdim, threshold)
 - `src/dml_simulation.py`: DML estimation — PLR (`estimate_ate`) and IRM (`estimate_ate_irm`) with R_D, R_Y, R_Y0, R_Y1 diagnostics
@@ -246,7 +239,8 @@ For each setting:
 - `src/decomposition_analysis.py`: empirical verification of the inflation identity
 - `src/theorem_anticonservative.py`: formal statement of the inflation identity
 - `src/analyze_joint_diagnostic.py`: joint (R_D, R_Y) diagnostic analysis with 2D heatmaps and AUC comparison
-- `output/figures/`: generated plots (including `output/figures/joint/` for joint diagnostic figures)
+- `src/validate_external_dataset.py`: external validation of IRM local-R² diagnostics on LaLonde covariates (semi-synthetic outcomes, known ATE)
+- `output/figures/`: generated plots (including `output/figures/paper/` for final paper figures)
 - `output/tables/`: summary tables
 - `output/archive/`: archived MC results from all runs
 - `hill_code/`: imported R simulation and example scripts
@@ -285,4 +279,4 @@ Each step fixes one structural barrier to diagnostic observability. All improvem
 
 *Practical recommendation:* Use IRM. Compute the diagnostic triple: R_D + R_Y0_local (controls with m̂ > 0.5) + R_Y1_local (treated with m̂ < 0.5). No need to choose which arm — include both. Optionally compare global vs local R² for each arm as a qualitative check. Empirical confirmation on a reversed-propensity DGP (where R_Y1_local is informative) is noted as future work.
 
-See `findings.md` for the complete analysis, including the inflation identity, propensity isolation experiment, PLR robustness checks across 25,000+ estimations, IRM results across 2,400 estimations, and local R_Y0 confirmation across 2,400 estimations with threshold sensitivity analysis.
+See `src/` for the complete analysis pipeline, including the inflation identity (`theorem_anticonservative.py`, `decomposition_analysis.py`), propensity isolation experiment (`robustness_analysis.py`), PLR robustness checks (`robustness_sample_size_and_rf.py`), and IRM with local R_Y0 diagnostics (`analyze_joint_diagnostic.py`).
