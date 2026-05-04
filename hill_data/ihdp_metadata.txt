@@ -1,0 +1,9 @@
+IHDP data preparation summary
+sim_path: /Users/aceyvogelstein/causal_dml_project/hill_data/sim.data
+example_path: /Users/aceyvogelstein/causal_dml_project/hill_data/example.data
+ihdp_sim_rows: 985
+ihdp_sim_cols: 29
+ihdp_example_rows: 985
+ihdp_example_cols: 50
+ihdp_sim_columns: treat,bw,b.head,preterm,birth.o,nnhealth,momage,sex,twin,b.marr,mom.lths,mom.hs,mom.scoll,cig,first,booze,drugs,work.dur,prenatal,ark,ein,har,mia,pen,tex,was,momwhite,momblack,momhisp
+ihdp_example_columns: iqsb.36,dose400,treat,bw,momage,nnhealth,birth.o,parity,moreprem,cigs,alcohol,ppvt.imp,bwg,female,mlt.birt,b.marry,livwho,language,whenpren,drugs,othstudy,mom.lths,mom.hs,mom.coll,mom.scoll,site1,site2,site3,site4,site5,site6,site7,site8,momblack,momhisp,momwhite,workdur.imp,bwg.1,female.1,mlt.birtF,b.marryF,livwhoF,languageF,whenprenF,drugs.1,othstudy.1,momed4F,siteF,momraceF,workdur.imp.1

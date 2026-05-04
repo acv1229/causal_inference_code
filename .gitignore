@@ -1,0 +1,15 @@
+# OS / Python clutter
+.DS_Store
+__pycache__/
+*.pyc
+
+# Generated simulation outputs
+processed/ihdp_synth_*.csv
+
+# Figures and large binaries (commit paper figures, not scratch PNGs)
+output/figures/*
+!output/figures/paper/
+output/figures/paper/*.png
+output/external_validation/
+*.pdf
+!output/figures/paper/*.pdf
